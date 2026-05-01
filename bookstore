@@ -1,5 +1,4 @@
 --our boss has asked you to determine which books by which authors are currently being used in the company's economics curricula.
-
 --In other words, show the textbook titles, author IDs, and author names for current economics textbooks. Only show textbooks that have authors in our database.
 --We're going to break this question down into three parts:
 
@@ -14,3 +13,63 @@ SELECT authortextbooklink.authorID, textbooks.subject, textbooks.title
 FROM textbooks Inner join authortextbooklink
 on textbooks.textbookID=authortextbooklink.textbookid
 WHERE textbooks.subject like '%economic%' and textbooks.current = 'Yes';
+
+--Find the names of the authors who wrote the textbooks.
+
+select 
+	Authors.Name, 
+	Textbooks.Title 
+from Authors
+INNER Join AuthorTextbookLink
+	ON Authors.AuthorID = AuthorTextbookLink.AuthorID
+INNER JOIN Textbooks
+	ON Textbooks.TextbookID = AuthorTextbookLink.TextbookID
+WHERE textbooks.Subject = 'Economics' and textbooks.Current = 'Yes';
+
+SELECT 
+	Authors.AuthorID, 
+    authors.name,
+    textbooks.subject, 
+    textbooks.title
+FROM textbooks 
+
+Inner join authortextbooklink
+	on textbooks.textbookID=authortextbooklink.textbookid
+Inner join authors
+	on authors.authorid = authortextbooklink.authorid
+WHERE textbooks.subject like '%economic%' and textbooks.current = 'Yes';
+
+--For all the 12th-grade courses, show the course name, textbook title, and authorID.
+--In other words, show all courses that have a GradeLevel of 12, and associated textbook titles and author IDs, if any.
+
+Select
+	Courses.CourseName,
+    Textbooks.Title,
+    AuthorTextbookLink.AuthorID
+from Courses
+LEFT JOIN Textbooks
+ON  Courses.TextbookID = Textbooks.TextbookID
+LEFT JOIN AuthorTextbookLink
+ON Textbooks.TextbookID = AuthorTextbookLink.TextbookID
+where GradeLevel = 12;
+
+
+--For 12th-grade courses with textbooks, show the course name, textbook title, and author name. This will have lot of steps - try to break it down like we did for number 1.
+Select
+	Courses.CourseName,
+    Textbooks.Title,
+    Authors.Name
+from Courses
+LEFT JOIN Textbooks
+	ON  Courses.TextbookID = Textbooks.TextbookID
+LEFT JOIN AuthorTextbookLink
+	ON Textbooks.TextbookID = AuthorTextbookLink.TextbookID
+INNER JOIN Authors
+	ON Authors.AuthorID =AuthorTextbookLink.AuthorID
+where GradeLevel = 12;
+
+
+SELECT COUNT(distinct orderid)
+FROM BIT_DB.JanSales
+WHERE length(orderid) = 6
+AND orderid <> 'Order ID';
