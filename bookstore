@@ -1,0 +1,16 @@
+--our boss has asked you to determine which books by which authors are currently being used in the company's economics curricula.
+
+--In other words, show the textbook titles, author IDs, and author names for current economics textbooks. Only show textbooks that have authors in our database.
+--We're going to break this question down into three parts:
+
+--Find the titles of the books that are currently being used in economics.
+select textbooks.title,textbooks.current
+FROM textbooks
+WHERE Textbooks.Subject = 'Economics'
+AND Textbooks.Current = 'Yes';
+
+--Find the author IDs associated with these economics textbooks.
+SELECT authortextbooklink.authorID, textbooks.subject, textbooks.title
+FROM textbooks Inner join authortextbooklink
+on textbooks.textbookID=authortextbooklink.textbookid
+WHERE textbooks.subject like '%economic%' and textbooks.current = 'Yes';
