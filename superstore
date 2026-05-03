@@ -1,0 +1,103 @@
+--Write a SQL query that orders the items by price.
+SELECT *
+FROM superstore
+ORDER BY price;
+
+
+--Write your own SQL query that will show a statistic about the item prices, like a sum, average, minimum, maximum, or count.
+--Shows sum of prices
+SELECT category, SUM(price) as total_price
+FROM superstore
+GROUP BY category;
+
+
+--This show revenue by categories
+SELECT category,
+	(price * stock_quantity) as total_revenue
+FROM superstore
+GROUP BY category
+;
+
+
+/*Write your own SQL query that will show a statistic about the price for items in the category of "Kitchen Supplies".
+*/
+--Displays  item details in kichen supplies
+
+SELECT item_name 
+	,category 
+    ,price
+FROM superstore
+WHERE category='Kitchen Supplies'
+;
+
+--Total revenue for kitchen supplies only 
+
+SELECT category,
+	(price * stock_quantity) as total_revenue
+FROM superstore
+WHERE category='Kitchen Supplies'
+GROUP BY category
+;
+
+/*How many air purifiers are in stock?
+Which items have a price greater than $50?
+What are the distinct categories available in the store?*/
+
+SELECT item_name 
+	,stock_quantity
+FROM superstore
+WHERE item_name= 'Air Purifier'
+;
+
+SELECT item_name
+	,price
+FROM superstore
+WHERE price >=50
+ORDER BY price
+;
+
+SELECT DISTINCT (category)
+FROM superstore
+;
+
+/*Which items should be restocked first?
+(Hint: low stock + high rating)
+Which items might not be selling well?
+(Hint: high stock + low rating)
+Is there a relationship between price and rating?
+(Hint: compare averages or group ranges)*/
+
+SELECT item_name
+	,stock_quantity
+    ,average_rating
+FROM superstore
+ORDER BY stock_quantity ASC
+	,average_rating DESC
+;
+
+
+/*Intermediate (Real Business Thinking)
+What is the average price of items in each category?
+Which category has the highest average rating?
+What is the total inventory value (price × stock_quantity) for each category?
+Which items have both high ratings (≥ 4.5) and low stock (≤ 10)?
+🔹 Advanced (Analyst-Level Thinking)
+Which item has the highest total inventory value?
+What percentage of items have a rating below 3.5?
+Which category contributes the most to total inventory value?
+Rank items within each category by price (highest to lowest).
+Identify items that are overpriced but poorly rated (high price, low rating).
+🔹 Real-World Insight Questions (Very Important for Interviews)
+Which items should be restocked first?
+(Hint: low stock + high rating)
+Which items might not be selling well?
+(Hint: high stock + low rating)
+Is there a relationship between price and rating?
+(Hint: compare averages or group ranges)
+🔹 Challenge Question (Strong Practice)
+Create a “priority score” for each item based on:
+High rating
+Low stock
+Moderate price
+
+Then rank items based on that score.*/
